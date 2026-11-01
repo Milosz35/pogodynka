@@ -1,26 +1,68 @@
-{% extends 'base.html.twig' %}
-{# @var place \App\Entity\Place #}
-{# @var forecasts \App\Entity\Forecast[] #}
-{% block title %}Hello WeatherController!{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div class="example-wrapper">
-    <h1>Weather in {{ place.name}} {{ place.country }}</h1>
+    <title>{% block title %}Weather App{% endblock %}</title>
 
-    <ul>
-        {% for forecast in forecasts %}
-            <li>
-                {{ forecast.date|date('d.m.Y') }}:
-                {{ forecast.temperature }}&deg;C
-            </li>
-        {% else %}
-            <li>Brak prognoz pogody.</li>
-        {% endfor %}
-    </ul>
-</div>
-{% endblock %}
+    {% block stylesheets %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+              rel="stylesheet">
+    {% endblock %}
+
+    {% block javascripts %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    {% endblock %}
+
+    {% set frankenphp_hot_reload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
+    {% if frankenphp_hot_reload %}
+        <meta name="frankenphp-hot-reload:url" content="{{ frankenphp_hot_reload }}">
+        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
+        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
+    {% endif %}
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+
+        <a class="navbar-brand" href="/">
+            Weather App
+        </a>
+
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/place/">
+                        Places
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/measurement/">
+                        Measurements
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+<main class="container py-4">
+    {% block body %}{% endblock %}
+</main>
+
+</body>
+</html>

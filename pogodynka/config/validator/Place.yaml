@@ -1,0 +1,32 @@
+
+App\Entity\Place:
+    properties:
+        name:
+            - NotBlank:
+                  message: 'Place name cannot be empty'
+                  groups: [new, edit]
+            - Length:
+                  min: 3
+                  max: 100
+                  minMessage: 'Name must have at least 3 characters'
+                  groups: [new]
+        country:
+            - NotBlank:
+                  message: 'Country is required'
+                  groups: [new, edit]
+        latitude:
+            - NotNull:
+                  message: 'Latitude is required'
+                  groups: [new, edit]
+            - Range:
+                  min: -90
+                  max: 90
+                  groups: [new, edit]
+        longitude:
+            - NotNull:
+                  message: 'Longitude is required'
+                  groups: [new, edit]
+            - Range:
+                  min: -180
+                  max: 180
+                  groups: [new, edit]
