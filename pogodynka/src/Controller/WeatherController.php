@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Place;
 use App\Repository\ForecastRepository;
 use App\Repository\PlaceRepository;
+use App\Service\WeatherUtil;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -16,16 +17,16 @@ final class WeatherController extends AbstractController
         string $city,
         string $country,
         PlaceRepository $placeRepository,
-        ForecastRepository $forecastRepository
+        WeatherUtil $util,
     ): Response
     {
-        $place = $placeRepository->findByCityAndCountry($city, $country); // linijka przy użyciu copilot
+        $place = $placeRepository->findByCityAndCountry($city, $country);
 
         if (!$place) {
             throw $this->createNotFoundException('Nie znaleziono miasta');
         }
 
-        $forecasts = $forecastRepository->findByLocation($place);
+        $forecasts = $util->getWeatherForPlace($place);
 
         return $this->render('weather/city.html.twig', [
             'place' => $place,
