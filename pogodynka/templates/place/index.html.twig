@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Place index{% endblock %}
+
+{% block body %}
+    <h1>Place index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for place in places %}
+            <tr>
+                <td>{{ place.id }}</td>
+                <td>{{ place.name }}</td>
+                <td>{{ place.country }}</td>
+                <td>{{ place.latitude }}</td>
+                <td>{{ place.longitude }}</td>
+                <td>
+                    {%  if is_granted('ROLE_PLACE_SHOW') %}
+                    <a href="{{ path('app_place_show', {'id': place.id}) }}">show</a>
+                    {% endif %}
+                    {%  if is_granted('ROLE_PLACE_EDIT')%}
+                    <a href="{{ path('app_place_edit', {'id': place.id}) }}">edit</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {%  if is_granted('ROLE_PLACE_NEW') %}
+        <a href="{{ path('app_place_new') }}">Create new</a>
+    {%  endif %}
+{% endblock %}
