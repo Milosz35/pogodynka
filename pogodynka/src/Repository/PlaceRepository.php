@@ -16,10 +16,10 @@ class PlaceRepository extends ServiceEntityRepository
         parent::__construct($registry, Place::class);
     }
 
-    public function findByCityAndCountry(string $city, string $country): ?Place //funkcja przy użyciu copilot
+    public function findByCityAndCountry(string $name, string $country): ?Place //funkcja przy użyciu copilot
     {
         return $this->findOneBy([
-            'name' => $city,
+            'name' => $name,
             'country' => $country
         ]);
     }
